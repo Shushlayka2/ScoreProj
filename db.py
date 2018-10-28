@@ -2,7 +2,11 @@
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, Text, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+engine = create_engine('postgresql://postgres:MAgrCNHAIOE0Pivy@35.228.165.80:5432/postgres', echo = True)
+Session = sessionmaker(bind=engine)
 Base = declarative_base()
 metadata = Base.metadata
 
