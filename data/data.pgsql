@@ -20,6 +20,8 @@ CREATE TABLE public.professor
     id SERIAL PRIMARY KEY NOT NULL,
     is_expert boolean DEFAULT false  NOT NULL,
     department_id integer NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
     CONSTRAINT department_FK FOREIGN KEY (department_id) REFERENCES public.department (id)
 );
 CREATE UNIQUE INDEX professor_id_uindex ON public.professor (id);
@@ -64,3 +66,28 @@ create table public.criteria
 );
 create unique index criteria_id_uindex
   on public.criteria (id);
+
+create extension pgcrypto;
+
+create or replace function user_auth(text, text)
+returns integer as $$
+declare out_id integer;
+begin
+    out_id = 0;
+    select id into out_id
+    from professor
+    where email = $1
+    and password = crypt($2, password);
+    return out_id;
+end; 
+$$ language plpgsql;
+
+create or replace function user_signing() returns trigger as $user_signing$
+begin
+    new.password := crypt(new.password, gen_salt('bf'));
+    return new;
+end;
+$user_signing$ language plpgsql;
+
+create trigger user_signing before insert or update on public.professor
+for each row execute procedure user_signing();

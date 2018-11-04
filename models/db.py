@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('postgresql://postgres:MAgrCNHAIOE0Pivy@35.228.165.80:5432/postgres', echo = True)
+engine = create_engine('postgresql://postgres:asehan57@localhost:5432/postgres', echo = True)
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 metadata = Base.metadata
@@ -41,6 +41,8 @@ class Professor(Base):
     full_name = Column(String(60), nullable=False)
     id = Column(Integer, primary_key=True, unique=True, server_default=text("nextval('professor_id_seq'::regclass)"))
     is_expert = Column(Boolean, nullable=False, server_default=text("false"))
+    email = Column(Text, nullable=False, unique=True)
+    password = Column(Text, nullable=False)
     department_id = Column(ForeignKey('department.id'), nullable=False)
 
     department = relationship('Department')
