@@ -62,7 +62,8 @@ create table public.criteria
     references professor,
   diploma_id     integer not null
     constraint diploma_fk
-    references diploma
+    references diploma,
+  unique (expert_id, diploma_id)
 );
 create unique index criteria_id_uindex
   on public.criteria (id);

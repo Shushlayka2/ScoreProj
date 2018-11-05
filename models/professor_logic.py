@@ -1,18 +1,21 @@
 from sqlalchemy import insert, func
 import models.db as db
 
-class Professor_logic(db.Professor):
+class Professor_logic:
+
+    def __init__(self):
+        self.professor = None
 
     def sign_up(self, name, department, email, password, confirm_password):
         if password != confirm_password:
             return False
-        self = db.Professor()
-        self.email = email
-        self.password = password
-        self.full_name = name
+        self.professor = db.Professor()
+        self.professor.email = email
+        self.professor.password = password
+        self.professor.full_name = name
         session = db.Session()
-        self.department = session.query(db.Department).filter(db.Department.id == department).first()
-        session.add(self)
+        self.professor.department = session.query(db.Department).filter(db.Department.id == department).first()
+        session.add(self.professor)
         session.commit()
         session.close()
         return True
@@ -20,9 +23,12 @@ class Professor_logic(db.Professor):
     def sign_in(self, email, password):
         professor_id = db.engine.execute(func.user_auth(email, password)).first()[0]
         session = db.Session()
-        professor = session.query(db.Professor).filter(db.Professor.id == professor_id).first()
+        self.professor = session.query(db.Professor).filter(db.Professor.id == professor_id).first()
         session.close()
-        return professor
+        if (self.professor != None):
+            return True
+        else:
+            return False
 
     def publish_diploma(self, thesis, description, deadline, team_work, scope):
         session = db.Session()
@@ -31,7 +37,7 @@ class Professor_logic(db.Professor):
         diploma.description = description
         diploma.deadline = deadline
         diploma.team_work = team_work
-        diploma.professor = self
+        diploma.professor = self.professor
         if type(scope) is str:
             scope_ent = db.Scope()
             scope_ent.name = scope
@@ -42,4 +48,20 @@ class Professor_logic(db.Professor):
             diploma.scope = session.query(db.Scope).filter(db.Scope.id == scope).first()
         session.add(diploma)
         session.commit()
-        session.close()        
+        session.close()
+
+    def estimate_diploma(self, thesis, relevance, interest, feasibility, diploma):
+        if self.professor.is_expert == False:
+            return
+        criteria = db.Criterion()
+        criteria.thesis_ev = thesis
+        criteria.relevance_ev = relevance
+        criteria.interest_ev = interest
+        criteria.feasibility_ev = feasibility
+        session = db.Session()
+        criteria.diploma = session.query(db.Diploma).filter(db.Diploma.id == diploma).first()
+        criteria.expert = self.professor
+        session.flush()
+        session.add(criteria)
+        session.commit()
+        session.close()
