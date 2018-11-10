@@ -1,4 +1,5 @@
 from sqlalchemy import insert, func
+from datetime import datetime
 import models.db as db
 
 class Professor_logic:
@@ -38,6 +39,7 @@ class Professor_logic:
         diploma.deadline = deadline
         diploma.team_work = team_work
         diploma.professor = self.professor
+        diploma.publish_time = datetime.now()
         if type(scope) is str:
             scope_ent = db.Scope()
             scope_ent.name = scope

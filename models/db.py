@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime 
 
 engine = create_engine('postgresql://postgres:asehan57@localhost:5432/postgres', echo = True)
 Session = sessionmaker(bind=engine)
@@ -57,12 +58,12 @@ class Diploma(Base):
     deadline = Column(Date, nullable=False)
     team_work = Column(Boolean, nullable=False, server_default=text("false"))
     evaluation = Column(Integer)
+    publish_time = Column(Date, nullable=False)
     professor_id = Column(ForeignKey('professor.id'), nullable=False)
     scope_id = Column(ForeignKey('scope.id'))
 
     professor = relationship('Professor')
     scope = relationship('Scope')
-
 
 class Criterion(Base):
     __tablename__ = 'criteria'

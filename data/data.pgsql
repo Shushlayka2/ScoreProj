@@ -41,6 +41,7 @@ CREATE TABLE public.diploma
     deadline date NOT NULL,
     team_work boolean DEFAULT false  NOT NULL,
     evaluation integer,
+    publish_time date NOT NULL,
     professor_id INTEGER NOT NULL,
     scope_id INTEGER,
     CONSTRAINT professor_FK FOREIGN KEY (professor_id) REFERENCES public.professor (id),
