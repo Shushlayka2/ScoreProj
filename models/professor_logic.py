@@ -53,8 +53,8 @@ class Professor_logic:
         session.close()
 
     def estimate_diploma(self, thesis, relevance, interest, feasibility, diploma):
-        if self.professor.is_expert == False:
-            return
+        # if self.professor.is_expert == False:
+        #     return
         criteria = db.Criterion()
         criteria.thesis_ev = thesis
         criteria.relevance_ev = relevance

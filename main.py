@@ -13,10 +13,10 @@ app = Flask(__name__)
 def test():
     return 'Test'
 
-app.run()
+# app.run()
 
 # professor = Professor_wrapper()
 # professor.sign_in("test_email@gmail.com", "test_password")
 # professor.publish_diploma("test_thesis", "test_description", datetime.now(), True, "testing")
-# professor.sign_up("Test name", 1, "test_email@gmail.com", "test_password", "test_password")
-# professor.estimate_diploma(5, 5, 5, 5, 2)
+# professor.sign_up("Test name 2", 1, "test_email_2@gmail.com", "test_password_2", "test_password_2")
+# professor.estimate_diploma(4, 5, 3, 5, 3)

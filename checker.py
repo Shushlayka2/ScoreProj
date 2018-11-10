@@ -8,7 +8,7 @@ s = sched.scheduler(time.time, time.sleep)
 
 class Checker(Thread):
     def run(self):
-        s.enter(2, 1, check_state)
+        s.enter(86400, 1, check_state)
         s.run()
 
 def check_state():
@@ -16,8 +16,8 @@ def check_state():
     diplomas = session.query(db.Diploma).all()
     for diploma in diplomas:
         criterias = session.query(db.Criterion).all()
-        if diploma.publish_time.day < datetime.now().day + 1 or len(criterias) >= 3:
+        if diploma.publish_time.day + 3 < datetime.now().day or len(criterias) >= 6:
             diploma_wrapper = Diploma_wrapper(diploma)
             diploma_wrapper.release()
     session.close()
-    s.enter(2, 1, check_state)
+    s.enter(86400, 1, check_state)
