@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, Text, text
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, Text, Numeric, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -57,7 +57,8 @@ class Diploma(Base):
     description = Column(Text, nullable=False)
     deadline = Column(Date, nullable=False)
     team_work = Column(Boolean, nullable=False, server_default=text("false"))
-    evaluation = Column(Integer)
+    evaluation = Column(Numeric)
+    coefficient = Column(Numeric)
     publish_time = Column(Date, nullable=False)
     professor_id = Column(ForeignKey('professor.id'), nullable=False)
     scope_id = Column(ForeignKey('scope.id'))

@@ -19,6 +19,7 @@ def check_state():
         criterias = session.query(db.Criterion).all()
         if diploma.publish_time.day + Configuration_Manager.get_unreleased_time() < datetime.now().day or len(criterias) >= Configuration_Manager.get_experts_count():
             diploma_wrapper = Diploma_wrapper(diploma)
-            diploma_wrapper.release()
+            diploma = diploma_wrapper.release()
+            session.commit()
     session.close()
     s.enter(Configuration_Manager.get_checking_interval(), 1, check_state)
