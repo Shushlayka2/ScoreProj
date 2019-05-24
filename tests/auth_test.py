@@ -4,7 +4,7 @@ import models.db as db
 from datetime import datetime
 from models.professor_logic import Professor_logic as Professor_wrapper
 
-class TestAuth(unittest.TestCase):
+class TestCommon(unittest.TestCase):
 
     def setUp(self):
         file = open(os.path.dirname(__file__) + '/prepare_for_test.pgsql', "r")

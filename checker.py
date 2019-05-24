@@ -16,7 +16,7 @@ def check_state():
     session = db.Session()
     diplomas = session.query(db.Diploma).all()
     for diploma in diplomas:
-        criterias = session.query(db.Criterion).all()
+        criterias = session.query(db.Criterion).filter(db.Criterion.diploma_id == diploma.id).all()
         if diploma.publish_time.day + Configuration_Manager.get_unreleased_time() < datetime.now().day or len(criterias) >= Configuration_Manager.get_experts_count():
             diploma_wrapper = Diploma_wrapper(diploma)
             diploma = diploma_wrapper.release()

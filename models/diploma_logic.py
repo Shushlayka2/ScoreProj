@@ -27,7 +27,7 @@ class Diploma_logic:
         return self.diploma
         
     def calculate_evaluation(self, length, np_matrix):
-        return np.sum(np_matrix.sum(axis = 0)) / length
+        return np.sum(np_matrix.mean(axis = 0)) / length
 
     def calculate_coef(self, length, np_matrix):
         # Kendall coefficient of concordance (see http://blog.any-p.ru/node/349) 
